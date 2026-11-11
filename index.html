@@ -6,391 +6,57 @@
 <title>ToolForge — 65 Free Online Tools</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="stylesheet" href="assets/style.css">
-<style>
-:root {
-  --bg: #080c14;
-  --bg2: #0d1220;
-  --bg3: #111827;
-  --surface: #141c2e;
-  --surface2: #1a243a;
-  --border: rgba(99,179,237,0.12);
-  --border2: rgba(99,179,237,0.22);
-  --accent: #38bdf8;
-  --accent2: #818cf8;
-  --accent3: #34d399;
-  --accent4: #fb923c;
-  --accent5: #f472b6;
-  --text: #e2e8f0;
-  --text2: #94a3b8;
-  --text3: #64748b;
-  --glow: 0 0 30px rgba(56,189,248,0.15);
-  --font-display: 'Syne', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-mono: 'DM Mono', monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
-
-/* Animated grid background */
-body::before{
-  content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(56,189,248,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.03) 1px,transparent 1px);
-  background-size:60px 60px;pointer-events:none;z-index:0;
-}
-body::after{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(56,189,248,0.08) 0%,transparent 60%);
-  pointer-events:none;z-index:0;
-}
-
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(8,12,20,0.85);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2rem;height:64px;
-}
-.nav-logo{
-  font-family:var(--font-display);font-size:1.4rem;font-weight:800;
-  color:var(--text);letter-spacing:-0.02em;text-decoration:none;
-  display:flex;align-items:center;gap:8px;
-}
-.nav-logo span{color:var(--accent)}
-.logo-badge{
-  font-size:0.55rem;font-family:var(--font-mono);font-weight:500;
-  background:rgba(56,189,248,0.12);color:var(--accent);
-  border:1px solid rgba(56,189,248,0.25);
-  padding:2px 6px;border-radius:4px;letter-spacing:0.05em;
-}
-.nav-search{
-  display:flex;align-items:center;gap:10px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:0 14px;height:40px;width:320px;
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
-.nav-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(56,189,248,0.1)}
-.nav-search svg{color:var(--text3);flex-shrink:0}
-.nav-search input{background:none;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:0.875rem;width:100%}
-.nav-search input::placeholder{color:var(--text3)}
-.nav-actions{display:flex;align-items:center;gap:12px}
-.btn-ghost{
-  background:none;border:1px solid var(--border);color:var(--text2);
-  padding:8px 16px;border-radius:8px;cursor:pointer;font-family:var(--font-body);
-  font-size:0.85rem;transition:all 0.2s;
-}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:rgba(56,189,248,0.05)}
-
-/* HERO */
-.hero{
-  position:relative;z-index:1;
-  padding:140px 2rem 80px;text-align:center;
-  max-width:900px;margin:0 auto;
-}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--font-mono);font-size:0.75rem;font-weight:500;
-  color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;
-  background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);
-  padding:6px 14px;border-radius:100px;margin-bottom:28px;
-  animation:fadeUp 0.6s ease both;
-}
-.hero-eyebrow::before{content:'●';font-size:0.5rem;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero h1{
-  font-family:var(--font-display);font-size:clamp(2.8rem,6vw,5rem);
-  font-weight:800;line-height:1.05;letter-spacing:-0.03em;
-  color:var(--text);margin-bottom:20px;
-  animation:fadeUp 0.6s 0.1s ease both;
-}
-.hero h1 .highlight{
-  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero p{
-  font-size:1.125rem;color:var(--text2);line-height:1.7;max-width:540px;margin:0 auto 40px;
-  animation:fadeUp 0.6s 0.2s ease both;
-}
-.hero-stats{
-  display:flex;justify-content:center;gap:40px;
-  animation:fadeUp 0.6s 0.3s ease both;
-}
-.hero-stat{text-align:center}
-.hero-stat .num{
-  font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--text);
-  line-height:1;
-}
-.hero-stat .num span{color:var(--accent)}
-.hero-stat .lbl{font-size:0.8rem;color:var(--text3);margin-top:4px;font-family:var(--font-mono)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-/* CATEGORY NAV */
-.cat-nav{
-  position:sticky;top:64px;z-index:90;
-  background:rgba(8,12,20,0.9);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  padding:0 2rem;
-}
-.cat-nav-inner{
-  display:flex;align-items:center;gap:4px;
-  max-width:1400px;margin:0 auto;overflow-x:auto;
-  scrollbar-width:none;padding:12px 0;
-}
-.cat-nav-inner::-webkit-scrollbar{display:none}
-.cat-btn{
-  display:flex;align-items:center;gap:7px;
-  background:none;border:1px solid transparent;
-  color:var(--text3);font-family:var(--font-body);font-size:0.82rem;font-weight:500;
-  padding:7px 14px;border-radius:8px;cursor:pointer;
-  white-space:nowrap;transition:all 0.2s;
-}
-.cat-btn:hover{color:var(--text);background:var(--surface);border-color:var(--border)}
-.cat-btn.active{color:var(--accent);background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.25)}
-.cat-btn .cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-
-/* MAIN CONTENT */
-.main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 2rem 4rem}
-
-/* SECTION */
-.section{margin-bottom:60px}
-.section-header{
-  display:flex;align-items:center;gap:16px;margin-bottom:24px;
-  padding-bottom:16px;border-bottom:1px solid var(--border);
-}
-.section-icon{
-  width:40px;height:40px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
-  flex-shrink:0;
-}
-.section-title{
-  font-family:var(--font-display);font-size:1.2rem;font-weight:700;
-  color:var(--text);letter-spacing:-0.01em;
-}
-.section-count{
-  font-size:0.75rem;font-family:var(--font-mono);
-  color:var(--text3);margin-top:2px;
-}
-.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border) 0%,transparent 100%)}
-
-/* TOOL GRID */
-.tool-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:14px;
-}
-
-/* TOOL CARD */
-.tool-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:14px;padding:20px;cursor:pointer;
-  transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
-  position:relative;overflow:hidden;
-  animation:cardIn 0.4s ease both;
-}
-.tool-card::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(56,189,248,0.06) 0%,transparent 60%);
-  opacity:0;transition:opacity 0.3s;pointer-events:none;
-}
-.tool-card:hover{
-  border-color:var(--border2);
-  transform:translateY(-3px);
-  box-shadow:0 12px 40px rgba(0,0,0,0.4),0 0 0 1px rgba(56,189,248,0.1);
-}
-.tool-card:hover::before{opacity:1}
-.tool-card.backend-only{cursor:default}
-.tool-card.backend-only:hover{transform:none}
-@keyframes cardIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
-
-.tool-icon{
-  width:44px;height:44px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;margin-bottom:14px;
-  transition:transform 0.2s;
-}
-.tool-card:hover .tool-icon{transform:scale(1.1) rotate(-3deg)}
-.tool-name{
-  font-family:var(--font-display);font-size:0.9rem;font-weight:700;
-  color:var(--text);letter-spacing:-0.01em;margin-bottom:6px;
-  line-height:1.3;
-}
-.tool-desc{font-size:0.78rem;color:var(--text3);line-height:1.5}
-.tool-badge{
-  position:absolute;top:12px;right:12px;
-  font-size:0.6rem;font-family:var(--font-mono);font-weight:500;
-  padding:3px 7px;border-radius:4px;letter-spacing:0.05em;text-transform:uppercase;
-}
-.badge-js{background:rgba(52,211,153,0.12);color:var(--accent3);border:1px solid rgba(52,211,153,0.2)}
-.badge-api{background:rgba(251,146,60,0.12);color:var(--accent4);border:1px solid rgba(251,146,60,0.2)}
-.badge-ai{background:rgba(129,140,248,0.15);color:var(--accent2);border:1px solid rgba(129,140,248,0.25)}
-
-/* MODAL */
-.modal-overlay{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s;
-}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal{
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:20px;width:100%;max-width:680px;
-  max-height:85vh;overflow:hidden;
-  display:flex;flex-direction:column;
-  transform:scale(0.95) translateY(10px);transition:transform 0.25s;
-  box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(56,189,248,0.05);
-}
-.modal-overlay.open .modal{transform:scale(1) translateY(0)}
-.modal-header{
-  display:flex;align-items:center;gap:14px;
-  padding:20px 24px;border-bottom:1px solid var(--border);
-  flex-shrink:0;
-}
-.modal-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
-.modal-title{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--text)}
-.modal-subtitle{font-size:0.78rem;color:var(--text3);margin-top:2px}
-.modal-close{
-  margin-left:auto;background:none;border:1px solid var(--border);
-  color:var(--text3);width:34px;height:34px;border-radius:8px;
-  cursor:pointer;font-size:1.1rem;transition:all 0.2s;
-  display:flex;align-items:center;justify-content:center;
-}
-.modal-close:hover{border-color:var(--border2);color:var(--text)}
-.modal-body{padding:24px;overflow-y:auto;flex:1}
-
-/* Form elements in modal */
-.field-label{font-size:0.8rem;font-family:var(--font-mono);color:var(--text3);margin-bottom:8px;display:block;letter-spacing:0.03em}
-.field-row{margin-bottom:16px}
-textarea.tool-input,input.tool-input,select.tool-select{
-  width:100%;background:var(--bg3);border:1px solid var(--border);
-  color:var(--text);font-family:var(--font-mono);font-size:0.85rem;
-  padding:12px 14px;border-radius:10px;outline:none;
-  transition:border-color 0.2s,box-shadow 0.2s;resize:vertical;
-}
-textarea.tool-input{min-height:100px}
-textarea.tool-input:focus,input.tool-input:focus,select.tool-select:focus{
-  border-color:var(--accent);box-shadow:0 0 0 3px rgba(56,189,248,0.08);
-}
-.tool-btn{
-  background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);
-  color:var(--accent);font-family:var(--font-body);font-size:0.875rem;font-weight:500;
-  padding:10px 20px;border-radius:10px;cursor:pointer;
-  transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;
-}
-.tool-btn:hover{background:rgba(56,189,248,0.18);border-color:rgba(56,189,248,0.45)}
-.tool-btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-.output-box{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:10px;padding:14px;font-family:var(--font-mono);
-  font-size:0.82rem;color:var(--text2);min-height:60px;
-  line-height:1.6;word-break:break-all;position:relative;
-}
-.copy-btn{
-  position:absolute;top:8px;right:8px;
-  background:var(--surface);border:1px solid var(--border);
-  color:var(--text3);font-size:0.7rem;font-family:var(--font-mono);
-  padding:4px 10px;border-radius:6px;cursor:pointer;transition:all 0.2s;
-}
-.copy-btn:hover{color:var(--accent);border-color:rgba(56,189,248,0.3)}
-.result-big{
-  font-family:var(--font-display);font-size:2.5rem;font-weight:800;
-  color:var(--accent);text-align:center;padding:20px;
-}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.coming-soon{
-  text-align:center;padding:40px;
-}
-.coming-soon .cs-icon{font-size:3rem;margin-bottom:16px}
-.coming-soon h3{font-family:var(--font-display);font-size:1.1rem;color:var(--text);margin-bottom:8px}
-.coming-soon p{font-size:0.85rem;color:var(--text3);line-height:1.6}
-.coming-soon .api-tag{
-  display:inline-block;margin-top:12px;
-  font-size:0.72rem;font-family:var(--font-mono);
-  background:rgba(251,146,60,0.1);color:var(--accent4);
-  border:1px solid rgba(251,146,60,0.2);padding:5px 12px;border-radius:6px;
-}
-
-/* FOOTER */
-footer{
-  position:relative;z-index:1;
-  border-top:1px solid var(--border);
-  background:var(--bg2);padding:40px 2rem;text-align:center;
-}
-.footer-logo{
-  font-family:var(--font-display);font-size:1.5rem;font-weight:800;
-  color:var(--text);letter-spacing:-0.02em;margin-bottom:8px;
-}
-.footer-logo span{color:var(--accent)}
-footer p{font-size:0.82rem;color:var(--text3)}
-
-/* SEARCH OVERLAY */
-.search-results-count{
-  font-size:0.78rem;font-family:var(--font-mono);color:var(--text3);
-  padding:12px 2rem 0;text-align:center;
-}
-
-/* SCROLL REVEAL */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.5s,transform 0.5s}
-.reveal.visible{opacity:1;transform:none}
-
-/* CATEGORY COLOR ACCENTS */
-.cat-pdf .section-icon{background:rgba(56,189,248,0.1);color:var(--accent)}
-.cat-image .section-icon{background:rgba(129,140,248,0.1);color:var(--accent2)}
-.cat-text .section-icon{background:rgba(52,211,153,0.1);color:var(--accent3)}
-.cat-dev .section-icon{background:rgba(251,146,60,0.1);color:var(--accent4)}
-.cat-calc .section-icon{background:rgba(244,114,182,0.1);color:var(--accent5)}
-.cat-sec .section-icon{background:rgba(250,204,21,0.1);color:#facc15}
-.cat-media .section-icon{background:rgba(167,139,250,0.1);color:#a78bfa}
-
-.cat-pdf .tool-icon{background:rgba(56,189,248,0.1)}
-.cat-image .tool-icon{background:rgba(129,140,248,0.1)}
-.cat-text .tool-icon{background:rgba(52,211,153,0.1)}
-.cat-dev .tool-icon{background:rgba(251,146,60,0.1)}
-.cat-calc .tool-icon{background:rgba(244,114,182,0.1)}
-.cat-sec .tool-icon{background:rgba(250,204,21,0.1)}
-.cat-media .tool-icon{background:rgba(167,139,250,0.1)}
-
-/* Toast */
-.toast{
-  position:fixed;bottom:24px;right:24px;z-index:999;
-  background:var(--surface2);border:1px solid var(--border2);
-  color:var(--text);font-size:0.85rem;font-family:var(--font-body);
-  padding:12px 20px;border-radius:12px;
-  transform:translateY(20px);opacity:0;transition:all 0.3s;
-  pointer-events:none;
-}
-.toast.show{transform:translateY(0);opacity:1}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--border2)}
-
-/* Range input */
-input[type=range]{width:100%;accent-color:var(--accent)}
-</style>
 </head>
 <body>
 
+<!-- TOP LASER LOADER -->
+<div id="topLoader" class="top-loader"></div>
+
+<!-- HIGH-TECH FULLSCREEN PRELOADER -->
+<div id="tfLoader" class="tf-loader">
+  <div class="loader-bg-glow"></div>
+  <div class="loader-center">
+    <div class="loader-cyber-ring">
+      <div class="ring-outer"></div>
+      <div class="ring-inner"></div>
+      <div class="ring-core">
+        <img src="assets/logo.svg" alt="ToolForge Logo" class="core-logo-mark" id="loaderLogoMark">
+      </div>
+    </div>
+    <div class="loader-brand">TOOL<span>FORGE</span></div>
+    <div class="loader-status" id="loaderStatus">INITIALIZING SYSTEM...</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar" id="loaderBar"></div>
+    </div>
+    <div class="loader-percent" id="loaderPercent">0%</div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Tool<span>Forge</span> <span class="logo-badge">BETA</span></a>
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.svg" alt="ToolForge Logo" class="nav-logo-mark" id="navLogoMark">
+    <span class="nav-title-text"><span>Tool</span><span class="logo-highlight">Forge</span></span>
+    <span class="logo-badge">V1.0</span>
+  </a>
   <div class="nav-search">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
     <input type="text" id="globalSearch" placeholder="Search 65 tools..." autocomplete="off">
+    <span class="search-kbd">Ctrl K</span>
   </div>
   <div class="nav-actions">
     <span id="searchCount" class="search-results-count" style="display:none"></span>
-    <button class="btn-ghost">GitHub</button>
+    <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost">
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-eyebrow">⚡ All tools, zero signup required</div>
   <h1>Your <span class="highlight">ultimate</span> browser<br>toolbox</h1>
   <p>65 free tools for PDF, images, text, code, calculators, security & media — all running in your browser or via our fast API.</p>
   <div class="hero-stats">
@@ -544,7 +210,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 </main>
 
 <footer>
-  <div class="footer-logo">Tool<span>Forge</span></div>
+  <div class="footer-logo">
+    <img src="assets/logo.svg" alt="ToolForge Logo" class="footer-logo-mark">
+    <span>Tool</span><span class="logo-highlight">Forge</span>
+  </div>
   <p>65 free tools · no signup · no watermarks · built with ❤️</p>
 </footer>
 
@@ -570,7 +239,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 const TOOLS = {
   pdf:[
     {id:'pdf-to-word',name:'PDF to Word',icon:'📝',desc:'Convert PDF files to editable .docx',badge:'api'},
-    {id:'word-to-pdf',name:'Word to PDF',icon:'📄',desc:'🚧 Under development — complex formatting may not be preserved',badge:'api'},
+    {id:'word-to-pdf',name:'Word to PDF',icon:'📄',desc:'Convert Word documents to PDF',badge:'api'},
     {id:'pdf-to-excel',name:'PDF to Excel',icon:'📊',desc:'Extract tables from PDF to .xlsx',badge:'api'},
     {id:'pdf-to-ppt',name:'PDF to PowerPoint',icon:'📽️',desc:'Convert PDF slides to .pptx',badge:'api'},
     {id:'merge-pdf',name:'Merge PDFs',icon:'🔗',desc:'Combine multiple PDFs into one',badge:'api'},
@@ -651,11 +320,26 @@ const TOOLS = {
   ]
 };
 
-// Render all tool cards
+// ── Laser Progress Loader ──
+function triggerTopLoader(pct = 100, finishCallback) {
+  const tl = document.getElementById('topLoader');
+  if (!tl) return;
+  tl.style.opacity = '1';
+  tl.style.width = pct + '%';
+  if (pct >= 100) {
+    setTimeout(() => {
+      tl.style.opacity = '0';
+      setTimeout(() => { tl.style.width = '0%'; if (finishCallback) finishCallback(); }, 400);
+    }, 280);
+  }
+}
+
+// ── Render all tool cards with Top-to-Bottom Staggered Cascade ──
 function renderCards(){
   Object.entries(TOOLS).forEach(([cat,tools])=>{
     const grid=document.getElementById(`grid-${cat}`);
     if(!grid)return;
+    grid.innerHTML = '';
     tools.forEach((t,i)=>{
       const isAPI=t.badge==='api'||t.badge==='ai';
       const card=document.createElement('div');
@@ -663,7 +347,8 @@ function renderCards(){
       card.dataset.id=t.id;
       card.dataset.name=t.name.toLowerCase();
       card.dataset.cat=cat;
-      card.style.animationDelay=`${i*0.04}s`;
+      // Staggered top-down cascade
+      card.style.animationDelay=`${(i * 0.045).toFixed(3)}s`;
       card.innerHTML=`
         <span class="tool-badge badge-${t.badge}">${t.badge==='ai'?'AI':t.badge.toUpperCase()}</span>
         <div class="tool-icon">${t.icon}</div>
@@ -675,17 +360,33 @@ function renderCards(){
         card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
         card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
       });
-     card.addEventListener('click',()=>{
-    if(isAPI) openAPIModal(t);
-    else openTool(t.id);
-});
+      card.addEventListener('click',()=>{
+        triggerTopLoader(75);
+        setTimeout(()=>{
+          window.location.href = `tools/${t.id}.html`;
+        }, 100);
+      });
       grid.appendChild(card);
     });
   });
 }
 
+// Re-cascade visible cards smoothly top-to-bottom
+function reanimateCards(){
+  let visibleIdx = 0;
+  document.querySelectorAll('.tool-card').forEach(card => {
+    if (card.style.display !== 'none') {
+      card.style.animation = 'none';
+      card.offsetHeight; // trigger reflow
+      card.style.animation = `cascadeDownScale 0.45s cubic-bezier(0.16, 1, 0.3, 1) ${(visibleIdx * 0.03).toFixed(3)}s both`;
+      visibleIdx++;
+    }
+  });
+}
+
 // Filter by category
 function filterCat(btn,cat){
+  triggerTopLoader(60);
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.section').forEach(s=>{
@@ -695,16 +396,21 @@ function filterCat(btn,cat){
       s.style.display='none';
     }
   });
+  reanimateCards();
+  triggerTopLoader(100);
 }
 
 // Search
 document.getElementById('globalSearch').addEventListener('input',function(){
+  triggerTopLoader(50);
   const q=this.value.toLowerCase().trim();
   const cnt=document.getElementById('searchCount');
   if(!q){
     document.querySelectorAll('.tool-card').forEach(c=>c.style.display='');
     document.querySelectorAll('.section').forEach(s=>s.style.display='');
     cnt.style.display='none';
+    reanimateCards();
+    triggerTopLoader(100);
     return;
   }
   let found=0;
@@ -719,209 +425,25 @@ document.getElementById('globalSearch').addEventListener('input',function(){
   });
   cnt.style.display='block';
   cnt.textContent=`${found} result${found!==1?'s':''} for "${this.value}"`;
+  reanimateCards();
+  triggerTopLoader(100);
 });
 
 // Modal
 function openAPIModal(t){
-  const endpointMap = {
-    'pdf-to-word': '/api/pdf/to-word',
-    'word-to-pdf': '/api/pdf/from-word',
-    'pdf-to-excel': '/api/pdf/to-excel',
-    'pdf-to-ppt': '/api/pdf/to-ppt',
-    'merge-pdf': '/api/pdf/merge',
-    'split-pdf': '/api/pdf/split',
-    'compress-pdf': '/api/pdf/compress',
-    'add-password': '/api/pdf/encrypt',
-    'remove-password': '/api/pdf/decrypt',
-    'rotate-pdf': '/api/pdf/rotate',
-    'pdf-to-image': '/api/pdf/to-image',
-    'image-to-pdf': '/api/image/to-pdf',
-    'add-watermark': '/api/pdf/watermark',
-    'fill-sign': '/api/pdf/fill-sign',
-    'compress-image': '/api/image/compress',
-    'resize-crop': '/api/image/resize',
-    'convert-format': '/api/image/convert',
-    'remove-bg': '/api/image/remove-bg',
-    'upscale-image': '/api/image/upscale',
-    'add-watermark-img': '/api/image/watermark',
-    'collage': '/api/image/collage',
-    'video-compress': '/api/media/compress-video',
-    'video-convert': '/api/media/convert-video',
-    'extract-audio': '/api/media/extract-audio',
-    'audio-convert': '/api/media/convert-audio',
-    'gif-maker': '/api/media/gif',
-    'trim-video': '/api/media/trim',
-    'volume-boost': '/api/media/volume-boost',
-    'url-shortener': '/api/utils/shorten-url',
-  };
-
-  const endpoint = endpointMap[t.id] || '';
-  const multiFile = ['merge-pdf','collage','image-to-pdf'].includes(t.id);
-
-  document.getElementById('modalIcon').textContent = t.icon;
-  document.getElementById('modalTitle').textContent = t.name;
-  document.getElementById('modalSub').textContent = 'Powered by FastAPI backend';
-  document.getElementById('modalBody').innerHTML = `
-
-${t.id === 'word-to-pdf' ? `
-<div style="
-  margin-bottom:16px;
-  padding:12px;
-  border-radius:10px;
-  background:rgba(251,146,60,0.08);
-  border:1px solid rgba(251,146,60,0.25);
-  color:var(--accent4);
-  font-size:0.85rem;
-  line-height:1.5;
-">
-  ⚠️ <strong>Word to PDF is currently in beta.</strong><br>
-  Basic documents work well, but complex formatting such as resumes,
-  columns, text boxes, images, tables, and advanced layouts may not be
-  converted accurately.
-</div>
-` : ''}
-
-${t.id === 'add-password' || t.id === 'remove-password' ? `
-<div style="
-  margin-bottom:16px;
-  padding:14px;
-  border-radius:12px;
-  background:rgba(59,130,246,0.06);
-  border:1px solid rgba(59,130,246,0.15);
-">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.95rem;font-weight:600;color:var(--text);">
-    🔒 PDF Password
-  </div>
-
-  <div style="font-size:0.8rem;color:var(--text3);margin-bottom:12px;line-height:1.5;">
-    ${t.id === 'add-password'
-      ? 'Enter a password to protect your PDF.'
-      : 'Enter the current password to unlock your PDF.'}
-  </div>
-
-  <div style="position:relative">
-    <input
-      type="password"
-      id="pdfPassword"
-      placeholder="${t.id === 'add-password'
-        ? 'Enter PDF password'
-        : 'Enter current PDF password'}"
-      style="
-        width:100%;
-        padding:12px 90px 12px 12px;
-        border-radius:10px;
-        border:1px solid var(--border2);
-        background:var(--bg2);
-        color:var(--text);
-      "
-    >
-
-    <button
-      type="button"
-      onclick="
-        const p=document.getElementById('pdfPassword');
-        this.textContent=p.type==='password'?'Hide':'Show';
-        p.type=p.type==='password'?'text':'password';
-      "
-      style="
-        position:absolute;
-        right:8px;
-        top:50%;
-        transform:translateY(-50%);
-        background:none;
-        border:none;
-        color:var(--accent);
-        cursor:pointer;
-        font-size:0.8rem;
-        font-weight:600;
-      "
-    >
-      Show
-    </button>
-  </div>
-</div>
-` : ''}
-    <div id="dropZone" style="border:2px dashed var(--border2);border-radius:14px;padding:40px;text-align:center;cursor:pointer;transition:all 0.2s" 
-      onclick="document.getElementById('fileInput').click()"
-      ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
-      ondragleave="this.style.borderColor='var(--border2)'"
-      ondrop="event.preventDefault();this.style.borderColor='var(--border2)';handleModalDrop(event)">
-      <div style="font-size:2.5rem;margin-bottom:12px">${t.icon}</div>
-      <div style="font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px">Drop your file here or <span style="color:var(--accent)">browse</span></div>
-      <div style="font-size:0.78rem;color:var(--text3)">Max 50MB · Free & secure</div>
-      <input type="file" id="fileInput" style="display:none" ${multiFile?'multiple':''} onchange="handleModalFile(event)">
+  document.getElementById('modalIcon').textContent=t.icon;
+  document.getElementById('modalTitle').textContent=t.name;
+  document.getElementById('modalSub').textContent='Backend processing required';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="coming-soon">
+      <div class="cs-icon">🚀</div>
+      <h3>FastAPI Backend Required</h3>
+      <p>This tool uses our Python/FastAPI backend for heavy file processing. It will be live once the Render deployment is set up in Phase 4.</p>
+      <div class="api-tag">PHASE 4 — COMING SOON</div>
     </div>
-    <div id="modalProgress" style="display:none;margin-top:16px">
-      <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--text3);font-family:var(--font-mono);margin-bottom:6px">
-        <span id="modalProgressLabel">Uploading...</span>
-        <span id="modalProgressPct">0%</span>
-      </div>
-      <div style="background:var(--bg3);border-radius:4px;height:6px;overflow:hidden">
-        <div id="modalProgressBar" style="width:0%;height:100%;background:var(--accent);border-radius:4px;transition:width 0.3s"></div>
-      </div>
-    </div>
-    <div id="modalResult" style="margin-top:12px"></div>
   `;
-
-  window._modalEndpoint = endpoint;
-  window._modalMulti = multiFile;
   document.getElementById('modalOverlay').classList.add('open');
 }
-
-window.handleModalDrop = function(e) {
-  handleModalFiles(e.dataTransfer.files);
-};
-window.handleModalFile = function(e) {
-  handleModalFiles(e.target.files);
-};
-window.handleModalFiles = function(fileList) {
-  const files = Array.from(fileList);
-  if(!files.length) return;
-
-  if (
-    window._modalEndpoint === '/api/pdf/encrypt' || window._modalEndpoint === '/api/pdf/decrypt' &&
-    !document.getElementById('pdfPassword')?.value.trim()
-  ) {
-    document.getElementById('modalResult').innerHTML =
-      '<div style="text-align:center;padding:16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:12px;color:#ef4444">🔒 Please enter a password to protect the PDF.</div>';
-    return;
-  }
-
-  document.getElementById('modalProgress').style.display = 'block';
-  document.getElementById('modalResult').innerHTML = '';
-
- ToolForgeAPI.upload({
-  endpoint: window._modalEndpoint,
-  file: window._modalMulti ? null : files[0],
-  files: window._modalMulti ? files : null,
-
-  fields:
-  window._modalEndpoint === '/api/pdf/encrypt' ||
-  window._modalEndpoint === '/api/pdf/decrypt'
-    ? {
-        password: document.getElementById('pdfPassword')?.value || ''
-      }
-    : {},
-    onProgress: (pct) => {
-      if(pct === -1){
-        document.getElementById('modalProgressLabel').textContent = 'Still processing... (server warming up)';
-        return;
-      }
-      document.getElementById('modalProgressBar').style.width = pct + '%';
-      document.getElementById('modalProgressPct').textContent = pct + '%';
-      document.getElementById('modalProgressLabel').textContent = pct < 100 ? 'Uploading...' : 'Processing on server...';
-    },
-    onSuccess: (blob, filename) => {
-      document.getElementById('modalProgress').style.display = 'none';
-      document.getElementById('modalResult').innerHTML = `<div style="text-align:center;padding:16px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:12px;color:var(--accent3)">✅ Done! Downloading <strong>${filename}</strong></div>`;
-      ToolForgeAPI.download(blob, filename);
-    },
-    onError: (msg) => {
-      document.getElementById('modalProgress').style.display = 'none';
-      document.getElementById('modalResult').innerHTML = `<div style="text-align:center;padding:16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:12px;color:#ef4444">❌ ${msg}</div>`;
-    }
-  });
-};
 
 function openModal(icon,title,sub,html){
   document.getElementById('modalIcon').textContent=icon;
@@ -2160,8 +1682,159 @@ function toolFlashcard(){
   };
 }
 
+// ── Flight Animation: Loader Logo glides into Navbar Logo ──
+function flyLogoToNav(onComplete) {
+  const loaderLogo = document.getElementById('loaderLogoMark');
+  const navLogo = document.getElementById('navLogoMark');
+  const loader = document.getElementById('tfLoader');
+
+  if (!loaderLogo || !navLogo || !loader) {
+    if (loader) loader.classList.add('loaded');
+    document.body.classList.add('page-ready');
+    if (onComplete) onComplete();
+    return;
+  }
+
+  // 1. Fade out surrounding rings and status text
+  loader.classList.add('loader-exiting');
+
+  // 2. Measure starting and destination bounding rectangles
+  const startRect = loaderLogo.getBoundingClientRect();
+  const targetRect = navLogo.getBoundingClientRect();
+
+  // 3. Create the flying logo clone
+  const flying = document.createElement('img');
+  flying.src = loaderLogo.src;
+  flying.className = 'flying-logo-mark';
+  flying.style.position = 'fixed';
+  flying.style.left = startRect.left + 'px';
+  flying.style.top = startRect.top + 'px';
+  flying.style.width = startRect.width + 'px';
+  flying.style.height = startRect.height + 'px';
+  flying.style.opacity = '1';
+  document.body.appendChild(flying);
+
+  // Hide static source and target during flight
+  loaderLogo.style.opacity = '0';
+  navLogo.style.opacity = '0';
+
+  // Force reflow
+  flying.offsetHeight;
+
+  // 4. Fade loader backdrop as flight starts
+  loader.classList.add('loader-fading');
+
+  // 5. Smooth flight to navbar coordinates
+  requestAnimationFrame(() => {
+    flying.style.left = targetRect.left + 'px';
+    flying.style.top = targetRect.top + 'px';
+    flying.style.width = targetRect.width + 'px';
+    flying.style.height = targetRect.height + 'px';
+    flying.style.transform = 'rotate(-8deg)';
+  });
+
+  // 6. Docking effect into navbar + website top-to-bottom cascade
+  setTimeout(() => {
+    navLogo.style.opacity = '1';
+    navLogo.classList.add('logo-docked');
+    flying.remove();
+    loader.classList.add('loaded');
+
+    // Trigger website top-to-bottom cascade
+    document.body.classList.add('page-ready');
+    if (onComplete) onComplete();
+  }, 760);
+}
+
+// ── High-Tech Cyber Preloader Controller (3-4s immersive load) ──
+function initPreloader() {
+  const loader = document.getElementById('tfLoader');
+  const bar = document.getElementById('loaderBar');
+  const pctLbl = document.getElementById('loaderPercent');
+  const statusLbl = document.getElementById('loaderStatus');
+  if (!loader) return;
+
+  triggerTopLoader(25);
+  let progress = 0;
+  const steps = [
+    { at: 18, status: 'BOOTING QUANTUM WORKSPACE...' },
+    { at: 38, status: 'INDEXING 65 PRODUCTIVITY TOOLS...' },
+    { at: 58, status: 'SYNCING FASTAPI & BROWSER MODULES...' },
+    { at: 78, status: 'CALIBRATING ENCRYPTION & MEDIA ENGINES...' },
+    { at: 92, status: 'INITIALIZING USER INTERFACE...' },
+    { at: 100, status: 'TOOLFORGE MATRIX ONLINE' }
+  ];
+  let stepIdx = 0;
+
+  const timer = setInterval(() => {
+    // Smooth progress increment lasting ~3.5s
+    progress += Math.random() * 1.4 + 0.55;
+    if (progress > 100) progress = 100;
+
+    const roundPct = Math.floor(progress);
+    if (bar) bar.style.width = roundPct + '%';
+    if (pctLbl) pctLbl.textContent = roundPct + '%';
+
+    if (stepIdx < steps.length && progress >= steps[stepIdx].at) {
+      if (statusLbl) statusLbl.textContent = steps[stepIdx].status;
+      stepIdx++;
+    }
+
+    if (progress >= 100) {
+      clearInterval(timer);
+      triggerTopLoader(100);
+      // Brief celebratory pause at 100% before flight animation
+      setTimeout(() => {
+        flyLogoToNav(() => {
+          reanimateCards();
+        });
+      }, 350);
+    }
+  }, 40);
+
+  // Failsafe: auto dismiss at 5 seconds max
+  setTimeout(() => {
+    clearInterval(timer);
+    if (!loader.classList.contains('loaded')) {
+      if (bar) bar.style.width = '100%';
+      if (pctLbl) pctLbl.textContent = '100%';
+      if (statusLbl) statusLbl.textContent = 'TOOLFORGE MATRIX ONLINE';
+      flyLogoToNav(() => {
+        reanimateCards();
+      });
+    }
+  }, 5000);
+}
+
+// Global Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    const s = document.getElementById('globalSearch');
+    if (s) { s.focus(); s.select(); triggerTopLoader(50); }
+  }
+  if (e.key === '/' && document.activeElement !== document.getElementById('globalSearch') && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    const s = document.getElementById('globalSearch');
+    if (s) { s.focus(); s.select(); triggerTopLoader(50); }
+  }
+  if (e.key === 'Escape') closeModal();
+});
+
+// Scroll to top button visibility toggle
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn) return;
+  if (window.scrollY > 380) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+});
+
 // Init
 renderCards();
+initPreloader();
 
 // Scroll reveal
 const observer=new IntersectionObserver(entries=>{
@@ -2169,9 +1842,10 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 </script>
-<script src="assets/js/api-client.js"></script>
-<script src="assets/js/tool-page-api.js"></script>
-</body>
-</html>
+
+<!-- FLOATING BACK TO TOP BUTTON -->
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'});triggerTopLoader(100);" title="Back to top">
+  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 </body>
 </html>
