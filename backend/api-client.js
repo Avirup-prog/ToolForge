@@ -15,7 +15,10 @@
 
 const ToolForgeAPI = (() => {
   // ── Config ──────────────────────────────────────────────────────────────────
-  const BASE_URL = "https://toolforge-api.onrender.com";
+  const BASE_URL =
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://localhost:8000"
+      : "https://toolforge-api.onrender.com";
 
   // Warn-once flag for cold-start UX message
   let _coldStartWarned = false;

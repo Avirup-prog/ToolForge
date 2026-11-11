@@ -38,8 +38,6 @@ from reportlab.lib.colors import Color, black
 from docx import Document
 from PIL import Image as PILImage
 import img2pdf
-from pdf2docx import Converter
-from fastapi.responses import FileResponse
 
 from utils.helpers import save_upload, temp_path, cleanup, tmp_scope, require_mime, tool_error
 
@@ -52,41 +50,46 @@ router = APIRouter()
 @router.post("/to-word", summary="Convert PDF to DOCX")
 async def pdf_to_word(file: UploadFile = File(...)):
     require_mime(file, "pdf")
-
     src = await save_upload(file, ".pdf")
     out = temp_path(".docx")
 
     try:
-        # Convert PDF to DOCX
-        cv = Converter(str(src))
-        cv.convert(str(out))
-        cv.close()
+        doc = Document()
+        doc.add_heading("Converted from PDF", 0)
 
-        # Optional cleanup of paragraph spacing
-        doc = Document(str(out))
-        for para in doc.paragraphs:
-            fmt = para.paragraph_format
-            fmt.space_before = 0
-            fmt.space_after = 0
+        with pdfplumber.open(str(src)) as pdf:
+            for i, page in enumerate(pdf.pages, 1):
+                text = page.extract_text() or ""
+                doc.add_heading(f"Page {i}", level=2)
+                for para in text.split("\n"):
+                    para = para.strip()
+                    if para:
+                        doc.add_paragraph(para)
+
+                # Tables
+                for table in page.extract_tables():
+                    if not table:
+                        continue
+                    t = doc.add_table(rows=len(table), cols=max(len(r) for r in table))
+                    t.style = "Table Grid"
+                    for r_idx, row in enumerate(table):
+                        for c_idx, cell in enumerate(row):
+                            if c_idx < len(t.rows[r_idx].cells):
+                                t.rows[r_idx].cells[c_idx].text = str(cell or "")
+
         doc.save(str(out))
-
-        # Return DOCX file
         data = out.read_bytes()
-
         return Response(
             content=data,
             media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            headers={
-                "Content-Disposition":
-                f'attachment; filename="{Path(file.filename).stem}.docx"'
-            },
+            headers={"Content-Disposition": f'attachment; filename="{Path(file.filename).stem}.docx"'},
         )
-
     except Exception as e:
         raise tool_error(f"PDF to Word failed: {e}")
-
     finally:
         cleanup(src, out)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 2. Word → PDF  /api/pdf/from-word
 # ─────────────────────────────────────────────────────────────────────────────
@@ -150,7 +153,6 @@ async def word_to_pdf(file: UploadFile = File(...)):
                 new_page()
 
         c.save()
-        buf.seek(0)
         data = buf.getvalue()
         return Response(
             content=data,
@@ -216,87 +218,49 @@ async def pdf_to_excel(file: UploadFile = File(...)):
 @router.post("/to-ppt", summary="Convert PDF pages to PPTX slides")
 async def pdf_to_ppt(file: UploadFile = File(...)):
     require_mime(file, "pdf")
-
     src = await save_upload(file, ".pdf")
     out = temp_path(".pptx")
 
     try:
-        import fitz  # PyMuPDF
-        from PIL import Image
         from pptx import Presentation
-        from pptx.util import Inches
+        from pptx.util import Inches, Pt
+        from pptx.enum.text import PP_ALIGN
 
         prs = Presentation()
-
-        # Modern widescreen format
-        prs.slide_width = Inches(13.333)
+        prs.slide_width = Inches(10)
         prs.slide_height = Inches(7.5)
+        blank_layout = prs.slide_layouts[6]   # blank
 
-        blank_layout = prs.slide_layouts[6]
+        with pdfplumber.open(str(src)) as pdf:
+            for i, page in enumerate(pdf.pages, 1):
+                slide = prs.slides.add_slide(blank_layout)
+                text = page.extract_text() or f"(Page {i} — no extractable text)"
 
-        pdf = fitz.open(str(src))
+                txBox = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(9), Inches(6.5))
+                tf = txBox.text_frame
+                tf.word_wrap = True
 
-        for page_num in range(len(pdf)):
-            page = pdf[page_num]
-
-            # Higher quality rendering
-            pix = page.get_pixmap(
-                matrix=fitz.Matrix(3, 3),
-                alpha=False
-            )
-
-            img_path = temp_path(".png")
-            pix.save(str(img_path))
-
-            slide = prs.slides.add_slide(blank_layout)
-
-            # Preserve aspect ratio
-            img = Image.open(str(img_path))
-            img_w, img_h = img.size
-
-            slide_w = prs.slide_width
-            slide_h = prs.slide_height
-
-            scale = min(
-                slide_w / img_w,
-                slide_h / img_h
-            )
-
-            new_w = int(img_w * scale)
-            new_h = int(img_h * scale)
-
-            left = int((slide_w - new_w) / 2)
-            top = int((slide_h - new_h) / 2)
-
-            slide.shapes.add_picture(
-                str(img_path),
-                left,
-                top,
-                width=new_w,
-                height=new_h,
-            )
-
-            img.close()
-            cleanup(img_path)
-
-        pdf.close()
+                lines = [l.strip() for l in text.split("\n") if l.strip()]
+                for j, line in enumerate(lines):
+                    if j == 0:
+                        p = tf.paragraphs[0]
+                    else:
+                        p = tf.add_paragraph()
+                    run = p.add_run()
+                    run.text = line
+                    run.font.size = Pt(11 if j > 0 else 14)
+                    if j == 0:
+                        run.font.bold = True
 
         prs.save(str(out))
-
         data = out.read_bytes()
-
         return Response(
             content=data,
             media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            headers={
-                "Content-Disposition":
-                f'attachment; filename="{Path(file.filename).stem}.pptx"'
-            },
+            headers={"Content-Disposition": f'attachment; filename="{Path(file.filename).stem}.pptx"'},
         )
-
     except Exception as e:
         raise tool_error(f"PDF to PPT failed: {e}")
-
     finally:
         cleanup(src, out)
 
@@ -397,10 +361,9 @@ async def split_pdf(
 @router.post("/compress", summary="Reduce PDF file size")
 async def compress_pdf(
     file: UploadFile = File(...),
-    quality: int = Form(75),
+    quality: int = Form(75),   # image quality 1-95
 ):
     require_mime(file, "pdf")
-
     src = await save_upload(file, ".pdf")
 
     try:
@@ -410,28 +373,28 @@ async def compress_pdf(
         for page in reader.pages:
             writer.add_page(page)
 
-        # Compress content streams where possible
+        # Compress embedded images in each page
         for page in writer.pages:
-            try:
-                page.compress_content_streams()
-            except Exception:
-                pass
+            for img_name in list(page.get("/Resources", {}).get("/XObject", {}).keys()):
+                xobj = page["/Resources"]["/XObject"][img_name]
+                if xobj.get("/Subtype") == "/Image":
+                    try:
+                        xobj.compress_content_streams()
+                    except Exception:
+                        pass
+
+        # General stream compression
+        writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
 
         buf = io.BytesIO()
         writer.write(buf)
-
         return Response(
             content=buf.getvalue(),
             media_type="application/pdf",
-            headers={
-                "Content-Disposition":
-                f'attachment; filename="{Path(file.filename).stem}_compressed.pdf"'
-            },
+            headers={"Content-Disposition": f'attachment; filename="{Path(file.filename).stem}_compressed.pdf"'},
         )
-
     except Exception as e:
         raise tool_error(f"Compress failed: {e}")
-
     finally:
         cleanup(src)
 
