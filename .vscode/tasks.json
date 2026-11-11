@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start All (Backend + Frontend)",
+      "dependsOn": ["Start Backend (FastAPI)", "Start Frontend (Port 3000)"],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Start Backend (FastAPI)",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/.venv/Scripts/python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Frontend (Port 3000)",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/.venv/Scripts/python.exe -m http.server 3000 --bind 127.0.0.1",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

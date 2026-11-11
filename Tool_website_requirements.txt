@@ -1,0 +1,96 @@
+I have selected these tools for my website:
+1. PDF to Word
+2. Word to PDF
+3. PDF to Excel
+4. PDF to PowerPoint
+5. Merge PDFs
+6. Split PDF
+7. Compress PDF
+8. Add password
+9. Remove password
+10. Rotate & reorder pages
+11. PDF to image
+12. Image to PDF
+13. Add watermark
+14. Fill & sign PDF
+15. Compress image
+16. Resize & crop
+17. Convert format (JPG/PNG/WEBP/SVG)
+18. Remove background (AI)
+19. Upscale image (AI)
+20. Add watermark
+21. Collage / image merger
+22. Word & character counter
+23. Case converter
+24. Remove duplicate lines
+25. Find & replace
+26. Lorem ipsum generator
+27. Whitespace cleaner
+28. Grammar & readability checker
+29. JSON formatter & validator
+30. HTML encode / decode
+31. Color code converter (HEX/RGB/HSL)
+32. Markdown previewer
+33. CSS minifier & formatter
+34. XML formatter
+35. YAML ↔ JSON converter
+36. BMI calculator
+37. Age calculator
+38. Percentage calculator
+39. Unit converter (length/weight/temp)
+40. Currency converter
+41. Loan & EMI calculator
+42. Tip calculator
+43. Date difference calculator
+44. GPA calculator
+45. Scientific calculator
+46. Time zone converter
+47. Password generator
+48. Password strength checker
+49. Hash generator (MD5/SHA256)
+50. QR code generator & scanner
+51. Barcode generator
+52. AES encryption / decryption
+53. Video compressor
+54. Video format converter
+55. Extract audio from video
+56. Audio format converter (MP3/WAV/OGG)
+57. GIF maker from video
+58. Trim video & audio
+59. Audio volume booster
+60. Open Graph / meta tag preview
+61. Twitter / LinkedIn post preview
+62. URL shortener
+63. Pomodoro / study timer
+64. Resume / CV formatter
+65. Flashcard maker
+
+Frontend: HTML, CSS, JavaScript (Netlify)
+Backend: Python, FastAPI (Render)
+Libraries: pdf-lib, FFmpeg, Pillow, pydub, rembg, pdfplumber
+DevOps: Netlify CI/CD, REST API design, CORS, environment variables
+Automation: Python + Jinja2 build scripts
+
+**Phase 1 — Frontend shell (Netlify)**
+- `index.html` — homepage with navbar, hero search, all 65 tool cards
+- `assets/style.css` — shared styles used by every tool page
+- `assets/js/main.js` — search, filtering, dark mode toggle
+
+**Phase 2 — Python build automation**
+- `build.py` — Jinja2 script that auto-generates all 65 tool HTML pages from a config file (this is your Python + Jinja2 resume line)
+- `tools.json` — master config with all tool metadata
+
+**Phase 3 — Pure JS tools (no backend needed)**
+- All text tools, calculators, developer tools, security tools, productivity tools
+
+**Phase 4 — FastAPI backend (Render)**
+- `main.py` — FastAPI app with endpoints for PDF, video, image, audio processing
+- `requirements.txt` — all Python dependencies
+- Deploy to Render, connect to frontend via API calls
+
+**Phase 5 — Heavy tools using Python**
+- PDF processing (pdfplumber, pdf-lib)
+- Video/audio (moviepy, pydub, ffmpeg)
+- Image AI (rembg, Pillow)
+
+Ready to start coding? Just say "start with Phase 1" and I'll generate the full `index.html` right now!
