@@ -23,6 +23,9 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 try:
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
 except ImportError:
@@ -34,6 +37,7 @@ TOOLS_JSON = ROOT / "tools.json"
 TMPL_DIR   = ROOT / "templates"
 DIST_DIR   = ROOT / "dist"
 OUT_DIR    = DIST_DIR / "tools"
+ROOT_TOOLS = ROOT / "tools"
 
 # ── Jinja2 custom filters ────────────────────────────────────────────────────
 MIME_EXT_MAP = {
@@ -198,6 +202,7 @@ def build(target_id: str | None = None, dry_run: bool = False) -> None:
                 html = render_tool(tmpl, tool, cat, meta, lookup)
                 if not dry_run:
                     write_file(out_path, html)
+                    write_file(ROOT_TOOLS / f"{tool['id']}.html", html)
                 badge_icon = {"js": "⚡", "api": "🔌", "ai": "✨"}.get(tool["badge"], "  ")
                 status = "  (dry)" if dry_run else f"  {len(html):,} chars"
                 print(f"  {badge_icon}  tools/{tool['id']}.html{status}")

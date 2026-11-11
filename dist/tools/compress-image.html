@@ -25,6 +25,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
 <!-- Shared styles (built by Phase 1) -->
 <link rel="stylesheet" href="../assets/style.css">
@@ -255,20 +256,57 @@
 }
 .section-label:first-child { margin-top: 0; }
 
+/* ── Cascading Top-To-Bottom Load Animations ── */
+.tool-page-hero .breadcrumb { animation: cascadeDown 0.5s var(--ease-spring) 0.05s both; }
+.tool-page-icon { animation: cascadeDown 0.6s var(--ease-spring) 0.12s both; }
+.tool-page-title { animation: cascadeDown 0.6s var(--ease-spring) 0.2s both; }
+.tool-page-desc { animation: cascadeDown 0.6s var(--ease-spring) 0.28s both; }
+.tool-meta-pills { animation: cascadeDown 0.6s var(--ease-spring) 0.35s both; }
+.workspace-card { animation: cascadeDownScale 0.6s var(--ease-spring) 0.42s both; }
+.related-section { animation: cascadeDown 0.6s var(--ease-spring) 0.5s both; }
+
 /* JSON-LD is injected below */
 </style>
 </head>
 <body>
 
+<!-- TOP LASER LOADER -->
+<div id="topLoader" class="top-loader"></div>
+
+<!-- HIGH-TECH FULLSCREEN PRELOADER -->
+<div id="tfLoader" class="tf-loader">
+  <div class="loader-bg-glow"></div>
+  <div class="loader-center">
+    <div class="loader-cyber-ring">
+      <div class="ring-outer"></div>
+      <div class="ring-inner"></div>
+      <div class="ring-core">
+        <img src="../assets/logo.svg" alt="ToolForge Logo" class="core-logo-mark" id="loaderLogoMark">
+      </div>
+    </div>
+    <div class="loader-brand">TOOL<span>FORGE</span></div>
+    <div class="loader-status" id="loaderStatus">INITIALIZING COMPRESS IMAGE...</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar" id="loaderBar"></div>
+    </div>
+    <div class="loader-percent" id="loaderPercent">0%</div>
+  </div>
+</div>
+
 <!-- NAV (identical to homepage) -->
 <nav>
-  <a href="../index.html" class="nav-logo">Tool<span>Forge</span> <span class="logo-badge">BETA</span></a>
+  <a href="../index.html" class="nav-logo">
+    <img src="../assets/logo.svg" alt="ToolForge Logo" class="nav-logo-mark" id="navLogoMark">
+    <span class="nav-title-text"><span>Tool</span><span class="logo-highlight">Forge</span></span>
+    <span class="logo-badge">V1.0</span>
+  </a>
   <div class="nav-search">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
     </svg>
     <input type="text" id="globalSearch" placeholder="Search 65 tools..." autocomplete="off"
            onkeydown="if(event.key==='Enter'){window.location='../index.html?q='+encodeURIComponent(this.value)}">
+    <span class="search-kbd">/</span>
   </div>
   <div class="nav-actions">
     <a href="../index.html" class="btn-ghost">← All Tools</a>
@@ -399,7 +437,10 @@
 </section><!-- /tool-workspace -->
 
 <footer>
-  <div class="footer-logo">Tool<span>Forge</span></div>
+  <div class="footer-logo">
+    <img src="../assets/logo.svg" alt="ToolForge Logo" class="footer-logo-mark">
+    <span>Tool</span><span class="logo-highlight">Forge</span>
+  </div>
   <p>65 free tools · no signup · no watermarks · built with ❤️</p>
 </footer>
 
@@ -464,7 +505,147 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// ── Top Laser Loader ──
+function triggerTopLoader(pct = 100, finishCallback) {
+  const tl = document.getElementById('topLoader');
+  if (!tl) return;
+  tl.style.opacity = '1';
+  tl.style.width = pct + '%';
+  if (pct >= 100) {
+    setTimeout(() => {
+      tl.style.opacity = '0';
+      setTimeout(() => { tl.style.width = '0%'; if (finishCallback) finishCallback(); }, 400);
+    }, 280);
+  }
+}
+
+// ── Flight Animation: Loader Logo glides into Navbar Logo ──
+function flyLogoToNav(onComplete) {
+  const loaderLogo = document.getElementById('loaderLogoMark');
+  const navLogo = document.getElementById('navLogoMark');
+  const loader = document.getElementById('tfLoader');
+
+  if (!loaderLogo || !navLogo || !loader) {
+    if (loader) loader.classList.add('loaded');
+    document.body.classList.add('page-ready');
+    if (onComplete) onComplete();
+    return;
+  }
+
+  // 1. Fade out surrounding rings and status text
+  loader.classList.add('loader-exiting');
+
+  // 2. Measure starting and destination bounding rectangles
+  const startRect = loaderLogo.getBoundingClientRect();
+  const targetRect = navLogo.getBoundingClientRect();
+
+  // 3. Create the flying logo clone
+  const flying = document.createElement('img');
+  flying.src = loaderLogo.src;
+  flying.className = 'flying-logo-mark';
+  flying.style.position = 'fixed';
+  flying.style.left = startRect.left + 'px';
+  flying.style.top = startRect.top + 'px';
+  flying.style.width = startRect.width + 'px';
+  flying.style.height = startRect.height + 'px';
+  flying.style.opacity = '1';
+  document.body.appendChild(flying);
+
+  // Hide static source and target during flight
+  loaderLogo.style.opacity = '0';
+  navLogo.style.opacity = '0';
+
+  // Force reflow
+  flying.offsetHeight;
+
+  // 4. Fade loader backdrop as flight starts
+  loader.classList.add('loader-fading');
+
+  // 5. Smooth flight to navbar coordinates
+  requestAnimationFrame(() => {
+    flying.style.left = targetRect.left + 'px';
+    flying.style.top = targetRect.top + 'px';
+    flying.style.width = targetRect.width + 'px';
+    flying.style.height = targetRect.height + 'px';
+    flying.style.transform = 'rotate(-8deg)';
+  });
+
+  // 6. Docking effect into navbar + website top-to-bottom cascade
+  setTimeout(() => {
+    navLogo.style.opacity = '1';
+    navLogo.classList.add('logo-docked');
+    flying.remove();
+    loader.classList.add('loaded');
+
+    // Trigger website top-to-bottom cascade
+    document.body.classList.add('page-ready');
+    if (onComplete) onComplete();
+  }, 760);
+}
+
+// ── Preloader (3-4s immersive load) ──
+function initPreloader() {
+  const loader = document.getElementById('tfLoader');
+  const bar = document.getElementById('loaderBar');
+  const pctLbl = document.getElementById('loaderPercent');
+  const statusLbl = document.getElementById('loaderStatus');
+  if (!loader) return;
+
+  triggerTopLoader(25);
+  let progress = 0;
+  const timer = setInterval(() => {
+    progress += Math.random() * 1.4 + 0.55;
+    if (progress > 100) progress = 100;
+    const roundPct = Math.floor(progress);
+    if (bar) bar.style.width = roundPct + '%';
+    if (pctLbl) pctLbl.textContent = roundPct + '%';
+    if (progress >= 100) {
+      clearInterval(timer);
+      triggerTopLoader(100);
+      setTimeout(() => {
+        flyLogoToNav();
+      }, 350);
+    }
+  }, 40);
+
+  // Failsafe: auto dismiss at 5s max
+  setTimeout(() => {
+    clearInterval(timer);
+    if (!loader.classList.contains('loaded')) {
+      if (bar) bar.style.width = '100%';
+      if (pctLbl) pctLbl.textContent = '100%';
+      flyLogoToNav();
+    }
+  }, 5000);
+}
+
+// Keyboard shortcut & back-to-top
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== document.getElementById('globalSearch') && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    const s = document.getElementById('globalSearch');
+    if (s) { s.focus(); s.select(); triggerTopLoader(50); }
+  }
+});
+
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn) return;
+  if (window.scrollY > 300) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+});
+
+initPreloader();
 </script>
+
+<!-- FLOATING BACK TO TOP BUTTON -->
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'});triggerTopLoader(100);" title="Back to top">
+  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 
 <!-- JSON-LD structured data -->
 <script type="application/ld+json">
