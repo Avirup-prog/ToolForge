@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <defs>
+    <linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="30" height="30" rx="8" fill="#080c14" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.4"/>
+  <!-- T Crossbar -->
+  <path d="M7 8.5C7 7.67 7.67 7 8.5 7H23.5C24.33 7 25 7.67 25 8.5V9.5C25 10.33 24.33 11 23.5 11H8.5C7.67 11 7 10.33 7 9.5Z" fill="url(#favGrad)"/>
+  <!-- Stem -->
+  <path d="M12.5 10H16.5V22.5C16.5 23.33 15.83 24 15 24H14C13.17 24 12.5 23.33 12.5 22.5Z" fill="url(#favGrad)"/>
+  <!-- F Arm -->
+  <path d="M16.5 14.5H22C22.83 14.5 23.5 15.17 23.5 16C23.5 16.83 22.83 17.5 22 17.5H16.5Z" fill="#38bdf8"/>
+  <!-- Spark -->
+  <path d="M21.5 20.5L24 23L21.5 25.5L19 23Z" fill="#34d399"/>
+</svg>

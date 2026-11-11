@@ -15,7 +15,10 @@
 
 const ToolForgeAPI = (() => {
   // ── Config ──────────────────────────────────────────────────────────────────
-  const BASE_URL = "https://toolforge-api-o6q8.onrender.com";
+  const BASE_URL =
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://localhost:8000"
+      : "https://toolforge-api-o6q8.onrender.com";
 
   // Warn-once flag for cold-start UX message
   let _coldStartWarned = false;
@@ -70,11 +73,7 @@ const ToolForgeAPI = (() => {
           try {
             const text = await new Response(xhr.response).text();
             const parsed = JSON.parse(text);
-            if (Array.isArray(parsed.detail)) {
-              msg = parsed.detail.map(x => x.msg).join(', ');
-}           else {
-              msg = parsed.detail || parsed.message || msg;
-}
+            msg = parsed.detail || parsed.message || msg;
           } catch (_) {}
           onError(msg);
           reject(new Error(msg));
